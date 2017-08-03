@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Rides {
     private ArrayList<Ride> disneyland;
     private ArrayList<Ride> californiaAdventure;
+    private int refreshInterval;
 
     Rides()
     {
@@ -37,5 +38,9 @@ public class Rides {
         }
     }
 
+    public void Loop()
+    {
+        //main loop
+    }
 
 }
