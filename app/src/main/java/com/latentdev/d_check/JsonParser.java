@@ -1,5 +1,6 @@
 package com.latentdev.d_check;
 
+import android.databinding.ObservableArrayList;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -19,9 +20,9 @@ import java.util.List;
 
 public class JsonParser
 {
-    static public ArrayList<Ride> getRides(String json)
+    static public ObservableArrayList<Ride> getRides(String json)
     {
-        ArrayList<Ride> rides= new ArrayList<>();
+        ObservableArrayList<Ride> rides= new ObservableArrayList<>();
         JSONTokener tokener = new JSONTokener(json);
 
         try{

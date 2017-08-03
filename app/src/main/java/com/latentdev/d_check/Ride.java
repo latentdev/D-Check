@@ -1,14 +1,17 @@
 package com.latentdev.d_check;
 
+import android.databinding.BaseObservable;
+
 /**
  * Created by Laten on 7/23/2017.
  */
 
-public class Ride {
-    public int id;
-    public String name;
-    public String type;
-    public WaitTime waitTime;
+public class Ride extends BaseObservable {
+    private int id;
+    private String name;
+    private String type;
+    private WaitTime waitTime;
+    private boolean check;
 
     public int getId() {
         return id;
