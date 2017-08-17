@@ -1,7 +1,10 @@
-package com.latentdev.d_check;
+package com.latentdev.d_check.Model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+
+import com.latentdev.d_check.BR;
+import com.latentdev.d_check.FastPass;
 
 /**
  * Created by Laten on 7/26/2017.

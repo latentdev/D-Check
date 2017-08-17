@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.latentdev.d_check.R;
 import com.latentdev.d_check.RideAdapter;
-import com.latentdev.d_check.Rides;
+import com.latentdev.d_check.Model.Rides;
 import com.latentdev.d_check.databinding.FragmentCaliforniaAdventureBinding;
 
 /**

@@ -3,15 +3,15 @@ package com.latentdev.d_check;
 import android.databinding.ObservableArrayList;
 import android.util.Log;
 
+import com.latentdev.d_check.Model.Ride;
+import com.latentdev.d_check.Model.WaitTime;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 
 /**

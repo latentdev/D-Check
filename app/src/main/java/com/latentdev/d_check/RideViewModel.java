@@ -3,7 +3,9 @@ package com.latentdev.d_check;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.BindingAdapter;
+
+import com.latentdev.d_check.Model.Ride;
+
 /**
  * Created by LatentDev on 8/3/2017.
  */
@@ -27,4 +29,11 @@ public class RideViewModel extends BaseObservable {
     public String getStatus() { return mRide.getWaitTime().getRollUpStatus(); }
     @Bindable
     public String getMessage() { return mRide.getWaitTime().getRollUpWaitTimeMessage(); }
+    @Bindable
+    public boolean getCheck() { return mRide.isCheck();}
+    @Bindable
+    public void setCheck(boolean check)
+    {
+        mRide.setCheck(check);
+    }
 }

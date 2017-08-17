@@ -1,12 +1,14 @@
-package com.latentdev.d_check;
+package com.latentdev.d_check.Model;
 
 import android.databinding.BaseObservable;
 import android.databinding.ObservableArrayList;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.latentdev.d_check.JsonParser;
+import com.latentdev.d_check.Network;
+
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -16,6 +18,7 @@ import java.util.Calendar;
 public class Rides extends BaseObservable implements Serializable{
     private ObservableArrayList<Ride> disneyland;
     private ObservableArrayList<Ride> californiaAdventure;
+    private Settings settings;
     //private ObservableArrayList<Ride> empty;
     private long refreshInterval = 5;
     private volatile boolean running = true;
@@ -23,14 +26,16 @@ public class Rides extends BaseObservable implements Serializable{
     private long lastInterval = 0;
     private long currentMinute;
 
-    Rides()
+    public Rides()
     {
         try {
             disneyland = new ObservableArrayList<>();
             californiaAdventure = new ObservableArrayList<>();
+            settings = new Settings();
             //empty = new ObservableArrayList<>();
             JsonParser.getRides(new Network().execute("http://rides.azurewebsites.net/api/EndPoint/DisneyLandTimes").get(),disneyland);
             JsonParser.getRides(new Network().execute("http://rides.azurewebsites.net/api/EndPoint/CaliforniaAdventureTimes").get(),californiaAdventure);
+
         }catch(Exception e)
         {
             e.printStackTrace();
@@ -43,7 +48,7 @@ public class Rides extends BaseObservable implements Serializable{
         californiaAdventure = california;
     }
 
-    public void UpdateRides()
+    private void UpdateRides()
     {
         try {
             JsonParser.getRides(new Network().execute("http://rides.azurewebsites.net/api/EndPoint/DisneyLandTimes").get(),disneyland);
@@ -69,7 +74,7 @@ public class Rides extends BaseObservable implements Serializable{
         running = false;
     }
 
-    public void Loop()
+    private void Loop()
     {
         while (running) {
             currentMinute = (SystemClock.elapsedRealtime()/1000)/60;
@@ -92,11 +97,4 @@ public class Rides extends BaseObservable implements Serializable{
 
     public ObservableArrayList<Ride> getCaliforniaAdventure() { return californiaAdventure; }
 
-    /*public ObservableArrayList<Ride> getEmpty() {
-        return empty;
-    }*/
-
-    /*public void setEmpty(ObservableArrayList<Ride> empty) {
-        this.empty = empty;
-    }*/
 }

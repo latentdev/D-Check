@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.latentdev.d_check.Fragments.CaliforniaAdventureFragment;
 import com.latentdev.d_check.Fragments.DisneylandFragment;
 import com.latentdev.d_check.Fragments.SettingsFragment;
+import com.latentdev.d_check.Model.Rides;
 
 
 public class MainActivity extends FragmentActivity implements DisneylandFragment.OnFragmentInteractionListener,SettingsFragment.OnFragmentInteractionListener, CaliforniaAdventureFragment.OnFragmentInteractionListener{
