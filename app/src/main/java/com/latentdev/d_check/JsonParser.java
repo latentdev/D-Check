@@ -20,9 +20,9 @@ import java.util.List;
 
 public class JsonParser
 {
-    static public ObservableArrayList<Ride> getRides(String json)
+    static public void getRides(String json,ObservableArrayList<Ride> inRides)
     {
-        ObservableArrayList<Ride> rides= new ObservableArrayList<>();
+        //ObservableArrayList<Ride> rides= new ObservableArrayList<>();
         JSONTokener tokener = new JSONTokener(json);
 
         try{
@@ -57,7 +57,24 @@ public class JsonParser
                         }
                     }
                     i++;
-                    rides.add(ride);
+
+                    boolean found = false;
+                    for (Ride mRide:inRides) {
+                        if(mRide.getName().equals(ride.getName()))
+                        {
+                            if(mRide.getWaitTime().getWaitTime()!=ride.getWaitTime().getWaitTime())
+                                Log.d("Update",mRide.getName()+" Updated! Old Time = "+mRide.getWaitTime().getWaitTime()+" New Time = "+ride.getWaitTime().getWaitTime());
+                            mRide.setName(ride.getName());
+                            mRide.getWaitTime().setWaitTime(ride.getWaitTime().getWaitTime());
+                            mRide.getWaitTime().setRollUpWaitTimeMessage(ride.getWaitTime().getRollUpWaitTimeMessage());
+                            mRide.getWaitTime().setRollUpStatus(ride.getWaitTime().getRollUpStatus());
+
+                            found = true;
+                        }
+                        
+                    }
+                    if(found==false)
+                    inRides.add(ride);
                 }
             }
 
@@ -65,7 +82,7 @@ public class JsonParser
         {
             Log.e("error",e.toString());
         }
-        return rides;
+
     }
 
 }

@@ -1,35 +1,26 @@
 package com.latentdev.d_check;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.databinding.ObservableArrayList;
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import com.latentdev.d_check.databinding.ActivityMainBinding;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity {
+import com.latentdev.d_check.Fragments.CaliforniaAdventureFragment;
+import com.latentdev.d_check.Fragments.DisneylandFragment;
+import com.latentdev.d_check.Fragments.SettingsFragment;
 
 
-    //public TextView mTextMessage;
-    public RecyclerView disneyListView;
+public class MainActivity extends FragmentActivity implements DisneylandFragment.OnFragmentInteractionListener,SettingsFragment.OnFragmentInteractionListener, CaliforniaAdventureFragment.OnFragmentInteractionListener{
 
-    //Network net;
-    MainActivity activity = this;
-    //public ObservableArrayList rides;// = new ArrayList<>();
     Rides model;
-    ActivityMainBinding binding;
+
+    Fragment disneyland;
+    Fragment californiaAdventure;
+    Fragment settings;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -38,29 +29,21 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home: {
-                    //net = new Network();
-                    /*try {
-                        rides = model.getDisneyLand();//JsonParser.getRides(net.execute(getString(R.string.disneyland_rides)).get());
-                    }catch(Exception e)
-                    {
-                        e.printStackTrace();
-                    }*/
-                    /*rides = model.getDisneyland();
-                    disneyListView = (RecyclerView) findViewById(R.id.disneyrecyclerview);*/
-                    RideAdapter adapter;
-                    adapter =  new RideAdapter(model.getDisneyland(), activity);
-                    binding.disneyrecyclerview.setAdapter((adapter));
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.fragment, disneyland)
+                            .commit();
                     return true;
                 }
                 case R.id.navigation_dashboard: {
-
-                    binding.disneyrecyclerview.setAdapter(null);
-                    //mTextMessage.setText(R.string.title_dashboard);
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.fragment, californiaAdventure)
+                            .commit();
                     return true;
                 }
                 case R.id.navigation_notifications: {
-                    binding.disneyrecyclerview.setAdapter(null);
-                    //mTextMessage.setText(R.string.title_notifications);
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.fragment,settings)
+                            .commit();
                     return true;
                 }
             }
@@ -74,27 +57,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //mTextMessage = (TextView) findViewById(R.id.message);
-        disneyListView = (RecyclerView) findViewById(R.id.disneyrecyclerview);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        binding.disneyrecyclerview.setLayoutManager(layoutManager);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getTitle());
+
 
         model = new Rides();
         model.Start();
 
-        RideAdapter adapter = new RideAdapter(model.getDisneyland(), this);
-        binding.disneyrecyclerview.setAdapter(adapter);
-        /*net = new Network();
-        try {
-            rides = JsonParser.getRides(net.execute(getString(R.string.disneyland_rides)).get());
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }*/
+        disneyland = DisneylandFragment.newInstance(model);
+        californiaAdventure = CaliforniaAdventureFragment.newInstance(model);
+        settings = SettingsFragment.newInstance();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment, disneyland)
+                .commit();
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

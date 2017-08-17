@@ -1,9 +1,11 @@
 package com.latentdev.d_check;
 
+import android.databinding.BaseObservable;
 import android.databinding.ObservableArrayList;
 import android.os.SystemClock;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -11,10 +13,11 @@ import java.util.Calendar;
  * Created by LatentDev on 7/30/2017.
  */
 
-public class Rides{
+public class Rides extends BaseObservable implements Serializable{
     private ObservableArrayList<Ride> disneyland;
-    private ArrayList<Ride> californiaAdventure;
-    private long refreshInterval = 1;
+    private ObservableArrayList<Ride> californiaAdventure;
+    //private ObservableArrayList<Ride> empty;
+    private long refreshInterval = 5;
     private volatile boolean running = true;
     private Calendar c = Calendar.getInstance();
     private long lastInterval = 0;
@@ -23,16 +26,18 @@ public class Rides{
     Rides()
     {
         try {
-            disneyland = JsonParser.getRides(new Network().execute("http://rides.azurewebsites.net/api/EndPoint/RefreshTimes").get());
+            disneyland = new ObservableArrayList<>();
+            californiaAdventure = new ObservableArrayList<>();
+            //empty = new ObservableArrayList<>();
+            JsonParser.getRides(new Network().execute("http://rides.azurewebsites.net/api/EndPoint/DisneyLandTimes").get(),disneyland);
+            JsonParser.getRides(new Network().execute("http://rides.azurewebsites.net/api/EndPoint/CaliforniaAdventureTimes").get(),californiaAdventure);
         }catch(Exception e)
         {
             e.printStackTrace();
         }
-
-        //code to fetch california adventure rides
     }
 
-    Rides(ObservableArrayList<Ride> disney,ArrayList<Ride> california)
+    Rides(ObservableArrayList<Ride> disney,ObservableArrayList<Ride> california)
     {
         disneyland = disney;
         californiaAdventure = california;
@@ -41,9 +46,8 @@ public class Rides{
     public void UpdateRides()
     {
         try {
-            disneyland = JsonParser.getRides(new Network().execute("http://rides.azurewebsites.net/api/EndPoint/RefreshTimes").get());
-            notify();
-            //california
+            JsonParser.getRides(new Network().execute("http://rides.azurewebsites.net/api/EndPoint/DisneyLandTimes").get(),disneyland);
+            JsonParser.getRides(new Network().execute("http://rides.azurewebsites.net/api/EndPoint/CaliforniaAdventureTimes").get(),californiaAdventure);
         }catch(Exception e)
         {
             e.printStackTrace();
@@ -85,4 +89,14 @@ public class Rides{
     public ObservableArrayList<Ride> getDisneyland() {
         return disneyland;
     }
+
+    public ObservableArrayList<Ride> getCaliforniaAdventure() { return californiaAdventure; }
+
+    /*public ObservableArrayList<Ride> getEmpty() {
+        return empty;
+    }*/
+
+    /*public void setEmpty(ObservableArrayList<Ride> empty) {
+        this.empty = empty;
+    }*/
 }
