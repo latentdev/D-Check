@@ -1,6 +1,7 @@
 package com.latentdev.d_check.Model;
 
 import android.databinding.BaseObservable;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 
 /**
@@ -8,9 +9,12 @@ import android.databinding.ObservableInt;
  */
 
 public class Settings extends BaseObservable {
-    private ObservableInt interval;
+
+    public ObservableInt interval;
+    public ObservableBoolean keepTimeUpdated;
     Settings()
     {
         interval = new ObservableInt(5);
+        keepTimeUpdated = new ObservableBoolean(false);
     }
 }

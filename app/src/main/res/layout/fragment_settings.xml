@@ -1,6 +1,17 @@
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="@string/hello_blank_fragment"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settingsLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
+    <data>
+        <variable
+            name="settings"
+            type="com.latentdev.d_check.settingsModel" />
+    </data>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_update_times"/>
+
+</android.support.constraint.ConstraintLayout>
